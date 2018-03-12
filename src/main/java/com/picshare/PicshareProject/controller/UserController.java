@@ -50,7 +50,6 @@ public class UserController{
     String update(@PathVariable Long id,@RequestBody User newUser){
         User user = newUser;
         user.setId(id);
-        user.setUpdatedDate(new Date());
         userRepository.save(user);
         return "updated";
     }

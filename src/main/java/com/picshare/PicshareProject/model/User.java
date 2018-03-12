@@ -1,24 +1,29 @@
 package com.picshare.PicshareProject.model;
 
+import java.io.Serializable;
+
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.NotEmpty;
+
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+
+import java.util.Collection;
 import java.util.Date;
+
 import java.util.Set;
+
 
 @Entity
 @Table(name = "user")
 public class User {
-   
-	public enum status{
-		ENABLED,
-		DESABLED,
-		ACTIVATED
-	}
+	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty
@@ -29,13 +34,17 @@ public class User {
     @Column(nullable = false)
     private String lastname;
 
-
+    @Column(nullable = false)
+    private String username;
+    
     @Column(nullable = false)
     private String password;
 
     @Column(nullable = false, unique = true)
     private String email;
     
+   
+   
    
     private String profilePicPath;
 
@@ -44,24 +53,32 @@ public class User {
 
     private Date birthday;
 
-
-    @CreatedDate
-    private Date createdDate = new Date();
-    
-    @UpdateTimestamp
-    private Date updatedDate;
-    
-    @Enumerated(EnumType.ORDINAL)
-    private status status;
-    
-    @OneToMany( targetEntity=Group.class )
-    private Set<Group> groups;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role")
+    Set<Role> roles;
     
     @ManyToMany(targetEntity=User.class)
-    private Set friends;
+    private Set<User> friends;
     
     @ManyToMany(targetEntity=User.class)
-    private Set follows;
+    private Set<User> follows;
+    
+    public User(){
+    	
+    }
+    public User(User user){
+    	this.biographie = user.biographie;
+    	this.birthday = user.birthday;
+    	this.email = user.email;
+    	this.firstname = user.firstname;
+    	this.follows = user.follows;
+    	this.friends = user.friends;
+    	this.id = user.id;
+    	this.password = user.password;
+    	this.profilePicPath = user.profilePicPath;
+    	this.lastname = user.lastname;
+    	this.roles = user.roles;
+    }
 
 	public Long getId() {
 		return id;
@@ -127,22 +144,7 @@ public class User {
 		this.birthday = birthDay;
 	}
 
-	public Date getUpdatedDate() {
-		return updatedDate;
-	}
-
-	public void setUpdatedDate(Date updatedDate) {
-		this.updatedDate = updatedDate;
-	}
-
-	public status getStatus() {
-		return status;
-	}
-
-	public void setStatus(status status) {
-		this.status = status;
-	}
-
+	
 	public Set getFriends() {
 		return friends;
 	}
@@ -159,18 +161,22 @@ public class User {
 		this.follows = follows;
 	}
 
-	public Date getCreatedDate() {
-		return createdDate;
+	public String getUsername() {
+		return username;
 	}
 
-	public Set<Group> getGroups() {
-		return groups;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
-	public void setGroups(Set<Group> groups) {
-		this.groups = groups;
+	public Set<Role> getRoles() {
+		return roles;
 	}
-  
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	
 	
     
 }

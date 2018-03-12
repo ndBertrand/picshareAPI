@@ -5,17 +5,19 @@ package com.picshare.PicshareProject.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import javax.persistence.Table;
 
-
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -39,7 +41,9 @@ public class Group {
 	@CreatedDate
 	private Date createdDate = new Date();
 
-	
+	public Group(){
+		
+	}
 
 	public Long getId() {
 		return id;
@@ -71,6 +75,14 @@ public class Group {
 
 	public void setCreator(User creator) {
 		this.creator = creator;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 
 	public Date getUser_createdDate() {

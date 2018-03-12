@@ -1,6 +1,9 @@
 package com.picshare.PicshareProject.controller;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +33,7 @@ public class groupController {
 
     @GetMapping(path = "/all")
     public @ResponseBody
-    Iterable<Group> getAll() {
+    Collection<Group> getAll() {
         return grouperepository.findAll();
     }
 
@@ -40,13 +43,9 @@ public class groupController {
         return grouperepository.findOne(id);
     }
 
-    @PostMapping(path = "/add") // Map ONLY GET Requests
+    @PostMapping(path = "/add")
     public @ResponseBody
     String add(@RequestBody Group newGroup) {
-    	
-    	Long group_creator =newGroup.getCreator().getId();
-    	User user = UserRepository.findOne(group_creator); 
-    	newGroup.setCreator(user);
     	grouperepository.save(newGroup);
         return "Saved";
     }
@@ -54,14 +53,12 @@ public class groupController {
     @PutMapping(path="/update/{id}")
     public @ResponseBody
     String update(@PathVariable Long id,@RequestBody Group newGroup){
-    	Long group_creator = newGroup.getCreator().getId();
-    	User user = UserRepository.findOne(group_creator); 
-    	newGroup.setCreator(user);
-    	newGroup.setId(id);;
+    	newGroup.setId(id);
         grouperepository.save(newGroup);
         return "updated";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(path = "/delete/{id}")
     public @ResponseBody
     String deleteOne(@PathVariable Long id){
