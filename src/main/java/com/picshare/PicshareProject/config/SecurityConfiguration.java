@@ -3,17 +3,21 @@ package com.picshare.PicshareProject.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.*;
 
 
 import com.picshare.PicshareProject.repository.UserRepository;
+import com.picshare.PicshareProject.security.JWTAuthenticationFilter;
+import com.picshare.PicshareProject.security.JWTAuthorizationFilter;
 import com.picshare.PicshareProject.service.CustomUserDetailService;
+import static com.picshare.PicshareProject.security.SecurityConstants.SIGN_UP_URL;
 
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
@@ -37,11 +41,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// TODO Auto-generated method stub
+		http.cors();
 		http.csrf().disable();
 		http.authorizeRequests()
-			.antMatchers("/**").authenticated()
+			.antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+			.anyRequest().authenticated()
 			.and()
-			.formLogin().permitAll();
+			.formLogin().permitAll()
+			.and()
+			.addFilter(new JWTAuthenticationFilter(authenticationManager()))
+			.addFilter(new JWTAuthorizationFilter(authenticationManager()))
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 
 
