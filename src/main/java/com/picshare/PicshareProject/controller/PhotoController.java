@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.picshare.PicshareProject.model.Group;
-import com.picshare.PicshareProject.model.Photo;
-import com.picshare.PicshareProject.model.User;
-import com.picshare.PicshareProject.repository.GroupRepository;
-import com.picshare.PicshareProject.repository.PhotoRepository;
-import com.picshare.PicshareProject.repository.UserRepository;
+
+import com.picshare.PicshareProject.dao.entities.Photo;
+
+import com.picshare.PicshareProject.dao.repository.GroupRepository;
+import com.picshare.PicshareProject.dao.repository.PhotoRepository;
+import com.picshare.PicshareProject.dao.repository.UserRepository;
 
 @RestController
 @RequestMapping(path = "/photo")

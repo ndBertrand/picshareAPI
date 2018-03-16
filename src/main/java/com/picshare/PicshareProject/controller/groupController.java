@@ -14,10 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.picshare.PicshareProject.model.Group;
-import com.picshare.PicshareProject.model.User;
-import com.picshare.PicshareProject.repository.GroupRepository;
-import com.picshare.PicshareProject.repository.UserRepository;
+import com.picshare.PicshareProject.dao.entities.Group;
+import com.picshare.PicshareProject.dao.repository.GroupRepository;
+import com.picshare.PicshareProject.dao.repository.UserRepository;
 
 @RequestMapping(path="/group")
 @RestController

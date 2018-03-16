@@ -1,4 +1,4 @@
-package com.picshare.PicshareProject.model;
+package com.picshare.PicshareProject.dao.entities;
 
 import java.io.Serializable;
 
@@ -19,7 +19,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable{
 	
 
 	@Id
@@ -34,17 +34,19 @@ public class User {
     @Column(nullable = false)
     private String lastname;
 
-    @Column(nullable = false)
+    @NotEmpty
+    @Column(nullable = false,unique = true)
     private String username;
     
+    @NotEmpty
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String email;
 
+    
     private String profilePicPath;
-
     
     private String biographie;
 
@@ -54,28 +56,48 @@ public class User {
     @JoinTable(name = "user_role")
     Set<Role> roles;
     
-    @ManyToMany(targetEntity=User.class)
-    private Set<User> friends;
+    
     
     @ManyToMany(targetEntity=User.class)
-    private Set<User> follows;
+    private Set<Long> follows;
+    
+    
     
     public User(){
     	
     }
-    public User(User user){
-    	this.biographie = user.biographie;
-    	this.birthday = user.birthday;
-    	this.email = user.email;
-    	this.firstname = user.firstname;
-    	this.follows = user.follows;
-    	this.friends = user.friends;
-    	this.id = user.id;
-    	this.password = user.password;
-    	this.profilePicPath = user.profilePicPath;
-    	this.lastname = user.lastname;
-    	this.roles = user.roles;
-    }
+    
+   
+	public User(String firstname, String lastname, String username, String password, String email,
+			String profilePicPath, String biographie, Date birthday, Set<Role> roles, Set<Long> friends,
+			Set<Long> follows) {
+		
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.profilePicPath = profilePicPath;
+		this.biographie = biographie;
+		this.birthday = birthday;
+		this.roles = roles;
+		this.follows = follows;
+	}
+	public User(User user) {
+		
+		this.firstname = user.firstname;
+		this.lastname = user.lastname;
+		this.username = user.username;
+		this.password = user.password;
+		this.email = user.email;
+		this.profilePicPath = user.profilePicPath;
+		this.biographie = user.biographie;
+		this.birthday = user.birthday;
+		this.roles = user.roles;
+		this.follows = user.follows;
+	}
+
+
 	public Long getId() {
 		return id;
 	}
@@ -128,14 +150,7 @@ public class User {
 		this.birthday = birthDay;
 	}
 
-	
-	public Set getFriends() {
-		return friends;
-	}
 
-	public void setFriends(Set friends) {
-		this.friends = friends;
-	}
 
 	public Set getFollows() {
 		return follows;

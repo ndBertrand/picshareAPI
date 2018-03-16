@@ -1,4 +1,4 @@
-package com.picshare.PicshareProject.config;
+package com.picshare.PicshareProject.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -13,10 +13,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.*;
 
 
-import com.picshare.PicshareProject.repository.UserRepository;
+import com.picshare.PicshareProject.dao.repository.UserRepository;
 import com.picshare.PicshareProject.security.JWTAuthenticationFilter;
 import com.picshare.PicshareProject.security.JWTAuthorizationFilter;
-import com.picshare.PicshareProject.service.CustomUserDetailService;
+import com.picshare.PicshareProject.security.CustomUserDetailService;
 import static com.picshare.PicshareProject.security.SecurityConstants.SIGN_UP_URL;
 
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -45,7 +45,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		http.csrf().disable();
 		http.authorizeRequests()
 			.antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-			.anyRequest().authenticated()
+			.anyRequest().permitAll()
 			.and()
 			.formLogin().permitAll()
 			.and()

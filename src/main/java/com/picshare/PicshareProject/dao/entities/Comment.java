@@ -1,4 +1,6 @@
-package com.picshare.PicshareProject.model;
+package com.picshare.PicshareProject.dao.entities;
+
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,21 +13,29 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-
 @Entity
 @Table(name = "comment")
-public class Comment {
-	
+public class Comment implements Serializable {
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-	
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
 	@NotEmpty
-	@Column(length = 140)
+	@Column(length = 240)
 	private String content;
-	
-	@ManyToOne
-	private User author;
+
+	@NotEmpty
+	@ManyToOne(targetEntity = User.class)
+	private Long author;
+
+	@NotEmpty
+	@ManyToOne(targetEntity = Photo.class)
+	private Long photo;
+
+	public Comment() {
+
+	}
 
 	public Long getId() {
 		return id;
@@ -43,14 +53,20 @@ public class Comment {
 		this.content = content;
 	}
 
-	public User getAuthor() {
-		return author;
+	public Long getPhoto() {
+		return photo;
 	}
 
-	public void setAuthor(User author) {
+	public void setPhoto(Long photo) {
+		this.photo = photo;
+	}
+
+	public void setAuthor(Long author) {
 		this.author = author;
 	}
 
-	
+	public Long getAuthor() {
+		return author;
+	}
 
 }

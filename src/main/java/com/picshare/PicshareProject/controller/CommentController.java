@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.picshare.PicshareProject.model.Comment;
-import com.picshare.PicshareProject.repository.CommentRepository;
+import com.picshare.PicshareProject.dao.entities.Comment;
+import com.picshare.PicshareProject.dao.repository.CommentRepository;
+
+
 
 
 @RequestMapping(path="/Comment")

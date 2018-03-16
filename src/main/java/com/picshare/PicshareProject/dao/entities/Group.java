@@ -1,9 +1,8 @@
-package com.picshare.PicshareProject.model;
+package com.picshare.PicshareProject.dao.entities;
 
-
-
-
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,9 +12,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -23,7 +24,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 @Entity
 @Table(name = "groups")
-public class Group {
+public class Group implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,14 +36,28 @@ public class Group {
 
 	private String description;
 
-	@ManyToOne
-	private User creator;
+	@NotNull
+	@ManyToOne(targetEntity = User.class)
+	private Long creator;
+
+	@ManyToMany(targetEntity = User.class)
+	private Set<Long> members;
 
 	@CreatedDate
-	private Date createdDate = new Date();
+	private Date createdDate;
 
-	public Group(){
-		
+	public Group() {
+
+	}
+
+	public Group(Long id, String name, String description, Long creator, Set<Long> members, Date createdDate) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.creator = creator;
+		this.members = members;
+		this.createdDate = createdDate;
 	}
 
 	public Long getId() {
@@ -69,11 +84,11 @@ public class Group {
 		this.description = description;
 	}
 
-	public User getCreator() {
+	public Long getCreator() {
 		return creator;
 	}
 
-	public void setCreator(User creator) {
+	public void setCreator(Long creator) {
 		this.creator = creator;
 	}
 
@@ -93,5 +108,12 @@ public class Group {
 		this.createdDate = user_createdDate;
 	}
 
-	
+	public Set<Long> getMembers() {
+		return members;
+	}
+
+	public void setMembers(Set<Long> members) {
+		this.members = members;
+	}
+
 }

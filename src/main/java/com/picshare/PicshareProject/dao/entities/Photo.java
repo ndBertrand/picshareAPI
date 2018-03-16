@@ -1,5 +1,6 @@
-package com.picshare.PicshareProject.model;
+package com.picshare.PicshareProject.dao.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
@@ -16,35 +17,30 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "photo")
-public class Photo {
+public class Photo implements Serializable {
 	@Id
-	@GeneratedValue (strategy= GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
+	@NotNull
 	@ManyToOne(targetEntity = User.class)
 	private Long owner;
-	
+
 	@ManyToMany(targetEntity = Group.class)
 	private Set<Long> grp;
-	
-	private enum visibility{
-		PUBLIC, PRIVATE
-	}
-	
-	@Enumerated(EnumType.ORDINAL)
-    private visibility visibilite;
-	
-	
-	@Column(length = 214 )
+
+	@ManyToMany(targetEntity = User.class)
+	private Set<Long> votedBy;
+
+	@Column(length = 214)
 	private String description;
-	
+
 	private Date date = new Date();
-	
+
 	private String place;
 
 	public Long getId() {
@@ -61,14 +57,6 @@ public class Photo {
 
 	public void setOwner(Long owner) {
 		this.owner = owner;
-	}
-
-	public visibility getVisibilite() {
-		return visibilite;
-	}
-
-	public void setVisibilite(visibility visibilite) {
-		this.visibilite = visibilite;
 	}
 
 	public String getDescription() {
@@ -95,12 +83,20 @@ public class Photo {
 		this.place = place;
 	}
 
-	
-	
-	
-	
-	
-	
-	
+	public Set<Long> getGrp() {
+		return grp;
+	}
+
+	public void setGrp(Set<Long> grp) {
+		this.grp = grp;
+	}
+
+	public Set<Long> getVotedBy() {
+		return votedBy;
+	}
+
+	public void setVotedBy(Set<Long> votedBy) {
+		this.votedBy = votedBy;
+	}
 
 }

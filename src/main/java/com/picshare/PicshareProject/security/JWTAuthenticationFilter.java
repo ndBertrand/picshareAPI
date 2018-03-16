@@ -1,7 +1,7 @@
 package com.picshare.PicshareProject.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.picshare.PicshareProject.model.User;
+import com.picshare.PicshareProject.dao.entities.User;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

@@ -1,10 +1,10 @@
-package com.picshare.PicshareProject.repository;
+package com.picshare.PicshareProject.dao.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.picshare.PicshareProject.model.Group;
-import com.picshare.PicshareProject.model.Photo;
 import org.springframework.stereotype.Repository;
+
+
+import com.picshare.PicshareProject.dao.entities.Photo;
 
 @Repository
 public interface PhotoRepository  extends JpaRepository<Photo,Long> {

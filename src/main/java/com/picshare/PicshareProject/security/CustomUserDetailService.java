@@ -1,4 +1,4 @@
-package com.picshare.PicshareProject.service;
+package com.picshare.PicshareProject.security;
 
 
 
@@ -11,9 +11,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.picshare.PicshareProject.model.CustomUserDetails;
-import com.picshare.PicshareProject.model.User;
-import com.picshare.PicshareProject.repository.UserRepository;
+import com.picshare.PicshareProject.dao.entities.CustomUserDetails;
+import com.picshare.PicshareProject.dao.entities.User;
+import com.picshare.PicshareProject.dao.repository.UserRepository;
 
 
 @Service

@@ -1,4 +1,4 @@
-package com.picshare.PicshareProject.model;
+package com.picshare.PicshareProject.dao.entities;
 
 import java.util.Collection;
 import java.util.List;

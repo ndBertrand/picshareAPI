@@ -1,11 +1,8 @@
 package com.picshare.PicshareProject.controller;
 
-import com.picshare.PicshareProject.model.User;
-import com.picshare.PicshareProject.repository.UserRepository;
-
-import java.util.Date;
-
-import javax.websocket.server.PathParam;
+import com.picshare.PicshareProject.dao.entities.User;
+import com.picshare.PicshareProject.dao.repository.UserRepository;
+import com.picshare.PicshareProject.metier.UserInterface;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,30 +15,30 @@ import org.springframework.web.bind.annotation.*;
 public class UserController{
 
     @Autowired
-    UserRepository userRepository;
+    UserInterface userInterface;
 
 
     @GetMapping(path = "/all")
     public @ResponseBody
     Iterable<User> getAll() {
-        return userRepository.findAll();
+        return userInterface.getAllUsers();
     }
 
     @GetMapping(path="/find/{id}")
     public @ResponseBody
     User findOne(@PathVariable Long id){
-        return userRepository.findOne(id);
+        return userInterface.getUserById(id);
     }
     @GetMapping(path="/find/")
     public @ResponseBody
     User findByEmail(@RequestParam String email){
-        return userRepository.findByEmail(email);
+        return null;
     }
 
     @PostMapping(path = "/add") // Map ONLY GET Requests
     public @ResponseBody
     String add(@RequestBody User newUser) {
-        userRepository.save(newUser);
+        userInterface.addUser(newUser);
         return "Saved";
     }
 
@@ -50,22 +47,23 @@ public class UserController{
     String update(@PathVariable Long id,@RequestBody User newUser){
         User user = newUser;
         user.setId(id);
-        userRepository.save(user);
+        userInterface.updateUser(id, newUser);
         return "updated";
     }
 
     @DeleteMapping(path = "/delete/{id}")
     public @ResponseBody
     String deleteOne(@PathVariable Long id){
-        userRepository.delete(id);
+        userInterface.deleteUser(id);
         return "Deleted";
     }
     
  
 
-    @GetMapping(path = "/friend_request")
+    @PostMapping(path = "/friend_request/{id1}/{id2}")
     public @ResponseBody
     String SendFriendRequest(@PathVariable Long id1,@PathVariable Long id2){
+    	userInterface.sendFriendRequest(id1, id2);
         return "request sent";
     }
 
