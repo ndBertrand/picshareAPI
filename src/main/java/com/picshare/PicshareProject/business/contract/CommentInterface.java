@@ -1,4 +1,4 @@
-package com.picshare.PicshareProject.metier;
+package com.picshare.PicshareProject.business.contract;
 
 import java.util.Collection;
 

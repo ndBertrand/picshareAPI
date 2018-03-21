@@ -1,90 +1,62 @@
 package com.picshare.PicshareProject.dao.entities;
 
-import java.io.Serializable;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+@Entity
+@Table(name = "friends")
+public class Friends {
 
-import org.hibernate.validator.constraints.NotEmpty;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long Id;
 
+    @ManyToOne
+    private User sender;
 
-@Entity(name = "friends")
-public class Friends  implements Serializable{
-	
+    @ManyToOne
+    private User receiver;
 
-	@Id
-	 @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@NotEmpty
-	@ManyToOne(targetEntity = User.class)
-	private Long sender;
-	
-	
+    private String status;
 
-	@NotEmpty
-	@ManyToOne(targetEntity = User.class)
-	private Long receiver;
-	
-	
-	@NotEmpty
-	private String status;
+    public Friends(){
 
-	public Friends(){
-		
-	}
+    }
+    public Friends(User sender, User receiver, String status) {
+        this.sender = sender;
+        this.receiver = receiver;
+        this.status = status;
+    }
 
-	public Friends(Long id, Long sender, Long receiver, String status) {
-		super();
-		this.id = id;
-		this.sender = sender;
-		this.receiver = receiver;
-		this.status = status;
-	}
+    public Long getId() {
+        return Id;
+    }
 
+    public void setId(Long id) {
+        Id = id;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public User getSender() {
+        return sender;
+    }
 
+    public void setSender(User sender) {
+        this.sender = sender;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public User getReceiver() {
+        return receiver;
+    }
 
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
+    }
 
-	public Long getSender() {
-		return sender;
-	}
+    public String getStatus() {
+        return status;
+    }
 
-
-	public void setSender(Long sender) {
-		this.sender = sender;
-	}
-
-
-	public Long getReceiver() {
-		return receiver;
-	}
-
-
-	public void setReceiver(Long receiver) {
-		this.receiver = receiver;
-	}
-
-
-	public String getStatus() {
-		return status;
-	}
-
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	
-	
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

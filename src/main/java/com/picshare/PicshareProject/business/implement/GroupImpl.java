@@ -1,4 +1,4 @@
-package com.picshare.PicshareProject.metier.implement;
+package com.picshare.PicshareProject.business.implement;
 
 import java.util.Collection;
 
@@ -6,39 +6,40 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import com.picshare.PicshareProject.dao.entities.Photo;
-import com.picshare.PicshareProject.metier.PhotoInterface;
+import com.picshare.PicshareProject.dao.entities.Group;
+import com.picshare.PicshareProject.business.contract.GroupInterface;
+
 
 @Service
 @Transactional
-public class PhotoImpl implements PhotoInterface {
+public class GroupImpl implements GroupInterface {
 
 	@Override
-	public Photo createPhoto(Photo photo) {
+	public Group createGroup(Group group) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void deletePhoto(Long id) {
+	public void deleteGroup(Long id) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public Photo updatePhoto(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Photo findOnePhoto(Long id) {
+	public Group updateGroup(Long id, Group group) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Collection<Photo> findAllPhoto() {
+	public Group findOneGroup(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Collection<Group> findAllGroup() {
 		// TODO Auto-generated method stub
 		return null;
 	}

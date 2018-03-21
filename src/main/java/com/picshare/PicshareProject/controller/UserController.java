@@ -2,13 +2,11 @@ package com.picshare.PicshareProject.controller;
 
 import com.picshare.PicshareProject.dao.entities.User;
 import com.picshare.PicshareProject.dao.repository.UserRepository;
-import com.picshare.PicshareProject.metier.UserInterface;
+import com.picshare.PicshareProject.business.contract.UserInterface;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-
-
 
 @RequestMapping(path="/user")
 @RestController
@@ -16,7 +14,9 @@ public class UserController{
 
     @Autowired
     UserInterface userInterface;
-
+    
+    @Autowired
+    UserRepository userRepository;
 
     @GetMapping(path = "/all")
     public @ResponseBody
@@ -32,7 +32,7 @@ public class UserController{
     @GetMapping(path="/find/")
     public @ResponseBody
     User findByEmail(@RequestParam String email){
-        return null;
+        return userInterface.getUserByEmail(email);
     }
 
     @PostMapping(path = "/add") // Map ONLY GET Requests
@@ -57,15 +57,60 @@ public class UserController{
         userInterface.deleteUser(id);
         return "Deleted";
     }
-    
- 
-
-    @PostMapping(path = "/friend_request/{id1}/{id2}")
-    public @ResponseBody
-    String SendFriendRequest(@PathVariable Long id1,@PathVariable Long id2){
-    	userInterface.sendFriendRequest(id1, id2);
-        return "request sent";
+     
+    @PostMapping(path= "/follow")
+    public String follow(@RequestParam(value = "user") Long user,@RequestParam(value = "follower") Long follower){
+    System.out.println(user + " "+follower);
+        userInterface.follow(user,follower);
+    	return "done";
     }
+
+    @PostMapping(path= "/unfollow")
+    public String unFollow(@RequestParam(value = "user") Long user,@RequestParam(value = "follower") Long follower){
+        System.out.println(user + " "+follower);
+        userInterface.unFollow(user,follower);
+        return "done";
+    }
+
+    @GetMapping(path = "{id}/followers")
+    public @ResponseBody
+    Iterable<User> getallFollowers(@PathVariable(value = "id") Long id){
+        return userInterface.getAllFollowers(id);
+    }
+
+    @GetMapping(path = "{id}/follows")
+    public @ResponseBody
+    Iterable<User> getAllFollows(@PathVariable(value = "id") Long id){
+        return userInterface.getAllFollows(id);
+    }
+
+    @PostMapping(path = "/sendRequest")
+    public String
+    sendFriendRequest(@RequestParam(value = "sender") Long sender,@RequestParam(value = "receiver") Long receiver){
+        userInterface.sendFriendRequest(sender,receiver);
+        return "done";
+    }
+
+    @PutMapping(path = "/acceptRequest")
+    public String
+    acceptFriendRequest(@RequestParam(value = "sender") Long sender,@RequestParam(value = "receiver") Long receiver){
+        userInterface.acceptFriendRequest(sender,receiver);
+        return "done";
+    }
+
+    @DeleteMapping(path = "/refuseRequest")
+    public String
+    refuseFriendRequest(@RequestParam(value = "sender") Long sender,@RequestParam(value = "receiver") Long receiver){
+        userInterface.refuseFriendRequest(sender,receiver);
+        return "done";
+    }
+
+    @GetMapping(path="/allFriends")
+    public String
+    getAllFriends(@RequestParam(value = "sender") Long user){
+        return null;
+    }
+
 
 
 }

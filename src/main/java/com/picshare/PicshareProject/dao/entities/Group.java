@@ -36,6 +36,8 @@ public class Group implements Serializable {
 
 	private String description;
 
+	private String groupeImage;
+
 	@NotNull
 	@ManyToOne(targetEntity = User.class)
 	private Long creator;
