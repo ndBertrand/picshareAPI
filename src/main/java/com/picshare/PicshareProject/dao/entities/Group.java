@@ -2,6 +2,7 @@ package com.picshare.PicshareProject.dao.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -39,11 +40,11 @@ public class Group implements Serializable {
 	private String groupeImage;
 
 	@NotNull
-	@ManyToOne(targetEntity = User.class)
-	private Long creator;
+	@ManyToOne
+	private User creator;
 
-	@ManyToMany(targetEntity = User.class)
-	private Set<Long> members;
+	@ManyToMany
+	private List<User> members = new List<User>();
 
 	@CreatedDate
 	private Date createdDate;
@@ -52,7 +53,10 @@ public class Group implements Serializable {
 
 	}
 
-	public Group(Long id, String name, String description, Long creator, Set<Long> members, Date createdDate) {
+	public Group(String name){
+		this.name = name;
+	}
+	public Group(Long id, String name, String description, User creator, List<User> members, Date createdDate) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -86,13 +90,6 @@ public class Group implements Serializable {
 		this.description = description;
 	}
 
-	public Long getCreator() {
-		return creator;
-	}
-
-	public void setCreator(Long creator) {
-		this.creator = creator;
-	}
 
 	public Date getCreatedDate() {
 		return createdDate;
@@ -110,12 +107,28 @@ public class Group implements Serializable {
 		this.createdDate = user_createdDate;
 	}
 
-	public Set<Long> getMembers() {
+
+	public String getGroupeImage() {
+		return groupeImage;
+	}
+
+	public void setGroupeImage(String groupeImage) {
+		this.groupeImage = groupeImage;
+	}
+
+	public User getCreator() {
+		return creator;
+	}
+
+	public void setCreator(User creator) {
+		this.creator = creator;
+	}
+
+	public List<User> getMembers() {
 		return members;
 	}
 
-	public void setMembers(Set<Long> members) {
+	public void setMembers(List<User> members) {
 		this.members = members;
 	}
-
 }

@@ -75,18 +75,34 @@ public class UserImpl implements UserInterface {
 	@Override
 	public void addOwnGroup(Long owner,Group groupe) {
 		// TODO Auto-generated method stub
-		
-		groupe.getMembers().add(owner);
-		groupInterface.createGroup(groupe);
+		Group newGroup = new Group();
+		newGroup.setName(groupe.getName());
+		User user = userrepository.findOne(owner);
+		newGroup.setCreator(user);
+		groupInterface.createGroup(newGroup);
+
+		newGroup = groupInterface.findOneGroup(newGroup.getId());
+		newGroup.getMembers().add(user);
+
+		groupInterface.createGroup(newGroup);
+
 		
 	}
 
 	@Override
 	public void joinGroup(Long members,Group groupe) {
 		// TODO Auto-generated method stub
-		groupe.getMembers().add(members);
+		User user = userrepository.findOneUser(members);
+		groupe.getMembers().add(user);
 		groupInterface.updateGroup(groupe.getId(), groupe);
 		
+	}
+
+	@Override
+	public void quiteGroup(Long member, Group groupe) {
+		User user = userrepository.findOneUser(member);
+		groupe.getMembers().remove(user);
+		groupInterface.updateGroup(groupe.getId(), groupe);
 	}
 
 	@Override

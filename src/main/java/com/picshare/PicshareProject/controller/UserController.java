@@ -1,5 +1,6 @@
 package com.picshare.PicshareProject.controller;
 
+import com.picshare.PicshareProject.dao.entities.Group;
 import com.picshare.PicshareProject.dao.entities.User;
 import com.picshare.PicshareProject.dao.repository.UserRepository;
 import com.picshare.PicshareProject.business.contract.UserInterface;
@@ -124,6 +125,13 @@ public class UserController{
        return userInterface.getAllReceiveddWaitingRequest(user,"ATTENTE");
     }
 
+
+    @PostMapping(path = "/createGroup") // Map ONLY GET Requests
+    public @ResponseBody
+    String add(@RequestParam(value = "user") Long id, @RequestBody Group groupe){
+        userInterface.addOwnGroup(id,groupe);
+        return "Saved";
+    }
 
 
 }

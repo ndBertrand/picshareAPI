@@ -34,6 +34,8 @@ public interface UserInterface {
 
 	void joinGroup(Long members, Group groupe);
 
+	void quiteGroup(Long member, Group groupe);
+
 	void addPhoto();
 
 	void addComment();

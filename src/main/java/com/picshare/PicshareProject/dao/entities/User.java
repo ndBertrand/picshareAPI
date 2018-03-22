@@ -86,6 +86,7 @@ public class User implements Serializable{
     @JsonIgnore
 	@OneToMany(mappedBy = "sender")
 	private List<Friends> friendsSender;
+
     
     
     public User(){
