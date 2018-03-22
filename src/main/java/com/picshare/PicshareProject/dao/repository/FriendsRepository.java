@@ -17,13 +17,13 @@ public interface  FriendsRepository extends JpaRepository<Friends, Long>{
     Friends getFriendsBySendAndReceiver(@Param(value = "s") User sender, @Param(value = "r") User receiver);
 
     @Query("SELECT f from Friends f where f.sender=:s or f.receiver=:s and f.status='AMI'")
-    Collection<User> getAllFriends(@Param(value = "s") User sender);
+    Collection<Friends> getAllFriends(@Param(value = "s") User sender);
 
 
-    @Query("SELECT f from Friends f where f.sender=:s and f.status=:status")
-    Collection<User> getAllFriendsByStatus(@Param(value = "s") User sender, @Param(value = "status") String  status);
-
-    @Query("SELECT f from Friends f where f.receiver=:r and f.status=:status")
-    Collection<User> getAllReceivedRequest(@Param(value = "r") User sender, @Param(value = "status") String  status);
+//    @Query("SELECT f from Friends f where f.sender=:s and f.status=:status")
+//    Collection<Friends> getAllFriendsByStatus(@Param(value = "s") User sender, @Param(value = "status") String  status);
+//
+//    @Query("SELECT f from Friends f where f.receiver=:r and f.status=:status")
+//    Collection<Friends> getAllReceivedRequest(@Param(value = "r") User sender, @Param(value = "status") String  status);
 
 }

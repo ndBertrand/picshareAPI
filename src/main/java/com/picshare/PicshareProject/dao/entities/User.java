@@ -209,13 +209,19 @@ public class User implements Serializable{
 		this.follows = follows;
 	}
 
-//	public List<Friends> getFriendsList() {
-//		return friendsList;
-//	}
-//
-//	public void setFriendsList(List<Friends> friendsList) {
-//		this.friendsList = friendsList;
-//	}
+	public List<Friends> getFriendsList() {
+		return friendsList;
+	}
 
+	public void setFriendsList(List<Friends> friendsList) {
+		this.friendsList = friendsList;
+	}
 
+	public List<Friends> getFriendsSender() {
+		return friendsSender;
+	}
+
+	public void setFriendsSender(List<Friends> friendsSender) {
+		this.friendsSender = friendsSender;
+	}
 }

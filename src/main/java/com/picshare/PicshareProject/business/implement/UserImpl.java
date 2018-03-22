@@ -168,7 +168,7 @@ public class UserImpl implements UserInterface {
     }
 
     @Override
-    public Collection<User> getAllReceidWaitingRequest(Long user, String status) {
+    public Collection<User> getAllReceiveddWaitingRequest(Long user, String status) {
         User s = userrepository.findOneUser(user);
         return friendInterface.getAllReceivedWaitingRequest(s, status);
     }

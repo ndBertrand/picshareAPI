@@ -106,9 +106,22 @@ public class UserController{
     }
 
     @GetMapping(path="/allFriends")
-    public String
-    getAllFriends(@RequestParam(value = "sender") Long user){
-        return null;
+    public @ResponseBody
+    Iterable<User> getAllFriends(@RequestParam(value = "user") Long user){
+        return userInterface.getAllFriends(user);
+    }
+
+
+    @GetMapping(path="/pendingSentRequest")
+    public @ResponseBody
+    Iterable<User> getAllPendingSentRequest(@RequestParam(value = "user") Long user){
+        return userInterface.getAllSentWaitingRequest(user,"ATTENTE");
+    }
+
+    @GetMapping(path="/pendingReceivedRequest")
+    public @ResponseBody
+    Iterable<User> getAllPendingReceivedRequest(@RequestParam(value = "user") Long user){
+       return userInterface.getAllReceiveddWaitingRequest(user,"ATTENTE");
     }
 
 

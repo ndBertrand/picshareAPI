@@ -48,6 +48,6 @@ public interface UserInterface {
 
     Collection<User> getAllSentWaitingRequest(Long user, String status);
 
-    Collection<User> getAllReceidWaitingRequest(Long user, String status);
+    Collection<User> getAllReceiveddWaitingRequest(Long user, String status);
 
 }

@@ -7,13 +7,16 @@ import com.picshare.PicshareProject.dao.repository.FriendsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class FriendImpl implements FriendInterface{
 
     @Autowired
     FriendsRepository friendsRepository;
+
 
     @Override
     public void save(Friends friends) {
@@ -32,16 +35,38 @@ public class FriendImpl implements FriendInterface{
 
     @Override
     public Collection<User> getAllFriends(User user) {
-        return friendsRepository.getAllFriends(user);
+        List<User> allFriends = new ArrayList<User>();
+
+        for(Friends f: friendsRepository.getAllFriends(user) ){
+            if(f.getStatus().equalsIgnoreCase("AMI")){
+                if(f.getSender().getId() == user.getId())
+                    allFriends.add(f.getReceiver());
+                else
+                    allFriends.add(f.getSender());
+            }
+        }
+        return allFriends;
     }
 
     @Override
     public Collection<User> getAllSentWaitingRequest(User user, String status) {
-        return friendsRepository.getAllFriendsByStatus(user, status);
+        List<User> allFriends = new ArrayList<User>();
+        for(Friends f: friendsRepository.findAll()){
+            if(f.getStatus().equalsIgnoreCase(status) && f.getSender().getId() == user.getId()){
+                    allFriends.add(f.getReceiver());
+            }
+        }
+        return allFriends;
     }
 
     @Override
     public Collection<User> getAllReceivedWaitingRequest(User user, String status) {
-        return friendsRepository.getAllReceivedRequest(user, status);
+        List<User> allFriends = new ArrayList<User>();
+        for(Friends f: friendsRepository.findAll()){
+            if(f.getStatus().equalsIgnoreCase(status) && f.getReceiver().getId() == user.getId()){
+                allFriends.add(f.getSender());
+            }
+        }
+        return allFriends;
     }
 }
