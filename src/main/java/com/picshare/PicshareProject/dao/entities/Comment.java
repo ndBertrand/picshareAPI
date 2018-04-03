@@ -12,7 +12,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+import static com.picshare.PicshareProject.security.SecurityConstants.CLIENT_URL;
+
+@CrossOrigin(origins = CLIENT_URL)
 @Entity
 @Table(name = "comment")
 public class Comment implements Serializable {

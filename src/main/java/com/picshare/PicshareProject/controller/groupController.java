@@ -11,6 +11,9 @@ import com.picshare.PicshareProject.dao.entities.Group;
 import com.picshare.PicshareProject.dao.repository.GroupRepository;
 import com.picshare.PicshareProject.dao.repository.UserRepository;
 
+import static com.picshare.PicshareProject.security.SecurityConstants.CLIENT_URL;
+
+@CrossOrigin(origins = CLIENT_URL)
 @RequestMapping(path="/group")
 @RestController
 public class groupController {

@@ -1,5 +1,12 @@
 package com.picshare.PicshareProject.dao.entities;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Transient;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -19,6 +26,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import static com.picshare.PicshareProject.security.SecurityConstants.CLIENT_URL;
+
+@CrossOrigin(origins = CLIENT_URL)
 @Entity
 @Table(name = "photo")
 public class Photo implements Serializable {
@@ -26,7 +36,15 @@ public class Photo implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@NotNull
+	@Transient
+	private transient MultipartFile file;
+
+
+	private String path;
+
+
+
+	@CreatedBy
 	@ManyToOne(targetEntity = User.class)
 	private Long owner;
 
@@ -39,9 +57,25 @@ public class Photo implements Serializable {
 	@Column(length = 214)
 	private String description;
 
-	private Date date = new Date();
+	@CreatedDate
+	private Date date;
 
 	private String place;
+
+	public Photo(){
+
+	}
+
+	public Photo(MultipartFile file, String path, Long owner, Set<Long> grp, Set<Long> votedBy, String description, Date date, String place) {
+		this.file = file;
+		this.path = path;
+		this.owner = owner;
+		this.grp = grp;
+		this.votedBy = votedBy;
+		this.description = description;
+		this.date = date;
+		this.place = place;
+	}
 
 	public Long getId() {
 		return id;
@@ -99,4 +133,25 @@ public class Photo implements Serializable {
 		this.votedBy = votedBy;
 	}
 
+
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	@Override
+	public String toString(){
+		return this.getDescription()+ " "+this.getPlace();
+	}
 }

@@ -1,8 +1,13 @@
 package com.picshare.PicshareProject.dao.entities;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import static com.picshare.PicshareProject.security.SecurityConstants.CLIENT_URL;
+
+@CrossOrigin(origins = CLIENT_URL)
 @Entity
 @Table(name = "friends")
 public class Friends {

@@ -1,6 +1,7 @@
 package com.picshare.PicshareProject.dao.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +23,11 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+import static com.picshare.PicshareProject.security.SecurityConstants.CLIENT_URL;
+
+@CrossOrigin(origins = CLIENT_URL)
 @Entity
 @Table(name = "groups")
 public class Group implements Serializable {
@@ -44,7 +49,7 @@ public class Group implements Serializable {
 	private User creator;
 
 	@ManyToMany
-	private List<User> members = new List<User>();
+	private List<User> members = new ArrayList<User>();
 
 	@CreatedDate
 	private Date createdDate;

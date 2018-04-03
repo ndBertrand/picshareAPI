@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import com.picshare.PicshareProject.business.contract.FriendInterface;
 import com.picshare.PicshareProject.dao.entities.Friends;
 import com.picshare.PicshareProject.dao.repository.FriendsRepository;
+import com.picshare.PicshareProject.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import com.picshare.PicshareProject.dao.entities.User;
 import com.picshare.PicshareProject.dao.repository.UserRepository;
 import com.picshare.PicshareProject.business.contract.GroupInterface;
 import com.picshare.PicshareProject.business.contract.UserInterface;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserImpl implements UserInterface {
@@ -30,11 +32,19 @@ public class UserImpl implements UserInterface {
 	@Autowired
     FriendInterface friendInterface;
 
+	@Autowired
+	StorageService storageService;
+
 	
 	@Override
 	public void addUser(User user) {
 		// TODO Auto-generated method stub
+
 		userrepository.save(user);
+		User createdUser = userrepository.findByEmail(user.getEmail());
+        storageService.creatUserDirectory(user.getId()+"");
+
+
 	}
 
 	@Override
@@ -85,8 +95,6 @@ public class UserImpl implements UserInterface {
 		newGroup.getMembers().add(user);
 
 		groupInterface.createGroup(newGroup);
-
-		
 	}
 
 	@Override
@@ -106,9 +114,9 @@ public class UserImpl implements UserInterface {
 	}
 
 	@Override
-	public void addPhoto() {
+	public void uploadPhoto(MultipartFile file,String path) {
 		// TODO Auto-generated method stub
-
+		storageService.store(file,path);
 	}
 
 	@Override
@@ -201,5 +209,18 @@ public class UserImpl implements UserInterface {
 		return u.getFollows();
 	}
 
+	@Override
+	public void deleteOwnGroup(Long owner, Group groupe) {
 
+	}
+
+	@Override
+	public void deletePhoto(Long id) {
+
+	}
+
+	@Override
+	public void updateProfilePicture(MultipartFile file,String path) {
+		storageService.store(file,path);
+	}
 }

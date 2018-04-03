@@ -1,5 +1,7 @@
 package com.picshare.PicshareProject.dao.entities;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import java.io.Serializable;
 
 import javax.persistence.Entity;
@@ -8,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import static com.picshare.PicshareProject.security.SecurityConstants.CLIENT_URL;
+
+@CrossOrigin(origins = CLIENT_URL)
 @Entity
 @Table(name = "role")
 public class Role implements Serializable{

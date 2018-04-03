@@ -1,14 +1,22 @@
 package com.picshare.PicshareProject.controller;
 
+import com.picshare.PicshareProject.business.contract.GroupInterface;
 import com.picshare.PicshareProject.dao.entities.Group;
+import com.picshare.PicshareProject.dao.entities.Photo;
 import com.picshare.PicshareProject.dao.entities.User;
 import com.picshare.PicshareProject.dao.repository.UserRepository;
 import com.picshare.PicshareProject.business.contract.UserInterface;
+import static com.picshare.PicshareProject.security.SecurityConstants.*;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.websocket.server.PathParam;
+
+@CrossOrigin(origins = CLIENT_URL)
 @RequestMapping(path="/user")
 @RestController
 public class UserController{
@@ -17,7 +25,11 @@ public class UserController{
     UserInterface userInterface;
     
     @Autowired
-    UserRepository userRepository;
+    GroupInterface groupInterface;
+
+    @Autowired
+    FileUploadController fileUploadController;
+
 
     @GetMapping(path = "/all")
     public @ResponseBody
@@ -45,7 +57,8 @@ public class UserController{
 
     @PutMapping(path="/update/{id}")
     public @ResponseBody
-    String update(@PathVariable Long id,@RequestBody User newUser){
+    String update(@PathVariable Long id,
+                  @RequestBody User newUser){
         User user = newUser;
         user.setId(id);
         userInterface.updateUser(id, newUser);
@@ -125,13 +138,64 @@ public class UserController{
        return userInterface.getAllReceiveddWaitingRequest(user,"ATTENTE");
     }
 
-
-    @PostMapping(path = "/createGroup") // Map ONLY GET Requests
+    @PostMapping(path = "/createGroup")
     public @ResponseBody
-    String add(@RequestParam(value = "user") Long id, @RequestBody Group groupe){
+    String addGroup(@RequestParam(value = "user") Long id, @RequestBody Group groupe){
         userInterface.addOwnGroup(id,groupe);
         return "Saved";
     }
+
+    @PutMapping(path = "/updateGroup")
+    public @ResponseBody
+    String updateGroup(@RequestParam(value = "user") Long id, @RequestBody Group groupe){
+        userInterface.addOwnGroup(id,groupe);
+        return "Update";
+    }
+
+    @PutMapping(path = "/deleteGroup")
+    public @ResponseBody
+    String deleteGroup(@RequestParam(value = "user") Long id, @RequestBody Group groupe){
+        userInterface.addOwnGroup(id,groupe);
+        return "Update";
+    }
+
+    @PutMapping(path = "/updateProfilePic")
+    public @ResponseBody
+    String updateProfilePicture(@RequestParam Long id,@RequestBody MultipartFile file)
+    {
+        User user = new User();
+        user = userInterface.getUserById(id);
+        System.out.println(user.getUsername());
+        if(user != null) {
+            System.out.println("l'utilisateur n'est pas nulle");
+            user.setProfilePicPath("" + user.getId() + "/profile/");
+            userInterface.updateProfilePicture(file, user.getProfilePicPath());
+            userInterface.addUser(user);
+        }
+        return "Updated";
+    }
+
+
+    @PostMapping(path="/addPhoto")
+    public @ResponseBody
+    String addPhoto(@RequestParam Long id,@RequestBody Photo photo){
+
+        System.out.println(photo);
+//        User user = userInterface.getUserById(id);
+//        if(user!= null){
+//            Photo newphoto = new Photo();
+//            newphoto.setOwner(user.getId());
+//            newphoto.setPlace(photo.getPlace());
+//            newphoto.setDescription(photo.getDescription());
+//            newphoto.setFile(photo.getFile());
+//            newphoto.setPath(user.getId()+"/pictures/");
+//
+//            userInterface.uploadPhoto(newphoto.getFile(),newphoto.getPath());
+//
+//        }
+        return  "photo added";
+    }
+
 
 
 }

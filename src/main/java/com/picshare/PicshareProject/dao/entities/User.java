@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.persistence.*;
 
@@ -18,7 +19,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import static com.picshare.PicshareProject.security.SecurityConstants.CLIENT_URL;
 
+@CrossOrigin(origins = CLIENT_URL)
 @Entity
 @Table(name = "user")
 public class User implements Serializable{
@@ -37,14 +40,15 @@ public class User implements Serializable{
     private String lastname;
 
     @NotEmpty
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false)
     private String username;
-    
+
+    @JsonIgnore
     @NotEmpty
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String email;
 
     
@@ -56,9 +60,12 @@ public class User implements Serializable{
 
 
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role")
-    Set<Role> roles;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "user_role", joinColumns =
+	@JoinColumn(name = "user_id"), inverseJoinColumns =
+	@JoinColumn(name = "role_id"))
+	private Set<Role> roles;
     
 
 
@@ -92,8 +99,7 @@ public class User implements Serializable{
     public User(){
     	
     }
-    
-   
+
 	public User(String firstname, String lastname, String username, String password, String email,
 			String profilePicPath, String biographie, Date birthday, Set<Role> roles, Set<Long> friends,
 			Set<Long> follows) {
@@ -186,13 +192,7 @@ public class User implements Serializable{
 		this.username = username;
 	}
 
-	public Set<Role> getRoles() {
-		return roles;
-	}
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
 
 	public List<User> getUsers() {
 		return users;
@@ -200,6 +200,14 @@ public class User implements Serializable{
 
 	public void setUsers(List<User> users) {
 		this.users = users;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 
 	public List<User> getFollows() {
